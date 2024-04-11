@@ -31,18 +31,32 @@ def stamp(
         for turn in range(3):
             try:
                 content_page = reader.pages[i]
-                content_page.mergeTranslatedPage(image_page,
-                                                 (float(content_page.mediaBox[2]) - (
-                                                         float(content_page.mediaBox[2]) * 0.35)),
-                                                 (float(content_page.mediaBox[3]) - (
-                                                         float(content_page.mediaBox[3]) * 0.33)))
                 if content_page.mediaBox.width > content_page.mediaBox.height:
                     content_page.mergeTranslatedPage(image_page,
                                                      (float(content_page.mediaBox[2]) - (
                                                              float(content_page.mediaBox[2]) * 0.35)),
                                                      (float(content_page.mediaBox[3]) - (
                                                              float(content_page.mediaBox[3]) * 0.45)))
-                writer.add_page(content_page)
+                    writer.add_page(content_page)
+                    content_page.mergeTranslatedPage(image_page,
+                                                     -(float(content_page.mediaBox[2]) - (
+                                                             float(content_page.mediaBox[2]) * 0.35)),
+                                                     (float(content_page.mediaBox[3]) - (
+                                                             float(content_page.mediaBox[3]) * 0.45)))
+                    writer.add_page(content_page)
+                else:
+                    content_page.mergeTranslatedPage(image_page,
+                                                     (float(content_page.mediaBox[2]) - (
+                                                             float(content_page.mediaBox[2]) * 0.35)),
+                                                     (float(content_page.mediaBox[3]) - (
+                                                             float(content_page.mediaBox[3]) * 0.33)))
+                    writer.add_page(content_page)
+                    content_page.mergeTranslatedPage(image_page,
+                                                     -(float(content_page.mediaBox[2]) + (
+                                                             float(content_page.mediaBox[2]) * 0.05)),
+                                                     (float(content_page.mediaBox[3]) - (
+                                                             float(content_page.mediaBox[3]) * 0.31)))
+                    writer.add_page(content_page)
                 break
             except Exception as e:
                 log_text = f"{content_pdf} :ERROR: {str(e)}"
@@ -61,11 +75,11 @@ def get_all_files_in_folder(folder_path):
     return file_paths
 
 
-path_source_file = "C:/CFM/DE/account-statistic-service-anh-hieu/CarDoctor AutoISM/"
-path_folder_save_file = "C:/CFM/DE/account-statistic-service-anh-hieu/CarEditPDF-TEST/"
+path_source_file = "C:/DE/locnguyen/tool_edit_pdf/fix/"
+path_folder_save_file = "C:/DE/locnguyen/tool_edit_pdf/fix-done/"
 log_error_path = "error.txt"
 if __name__ == "__main__":
-    path_files = get_all_files_in_folder("C:/CFM/DE/account-statistic-service-anh-hieu/CarDoctor AutoISM/TOYOTA/Camry/2006-2009/2006-2009/Location&Routing/GroundPoints")
+    path_files = get_all_files_in_folder("C:/DE/locnguyen/tool_edit_pdf/fix")
     threading_path_files = []
     count = 1
     for index, path_file in enumerate(path_files):
